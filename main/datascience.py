@@ -116,7 +116,7 @@ class DataScience:
 
 
     def insert_into_company_regions(self):
-        '''inserts data into the comapny regions table'''
+        '''inserts data into the company regions table'''
         self.conn = None
         try:
             self.conn = psycopg2.connect(**self.params)
@@ -136,6 +136,22 @@ class DataScience:
             )
             self.conn.commit()
             print('data inserted successfully into company_regions.')
+            self.cur.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            self.conn.close() if self.conn is not None else None
+
+    def create_indexes(self):
+        '''creates index for the employees table'''
+        self.conn = None
+        try:
+            self.conn = psycopg2.connect(**self.params)
+            self.cur = self.conn.cursor()
+            self.cur.execute("create index if not exists idx_emp_department on employees(department_id);")
+            self.cur.execute("create index idx_emp_region on employees(region_id);")
+            self.conn.commit()
+            print('index created successfully.')
             self.cur.close()
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -1213,4 +1229,5 @@ db.connect()
 # db.create_tables()
 # db.insert_into_company_departments()
 # db.insert_into_company_regions()
+# db.create_indexes()
 # db.insert_into_employees()
