@@ -1,2 +1,4 @@
 example/main.py
-files
+files/
+main/database.ini
+main/config.py
