@@ -5,3 +5,4 @@ lib
 main/config.py
 main/database.ini
 pyvenv.cfg
+data
