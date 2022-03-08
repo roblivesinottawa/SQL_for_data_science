@@ -1224,6 +1224,54 @@ class DataScience:
         finally:
             self.conn.close() if self.conn is not None else None
 
+
+    def create_table_org_structure(self):
+        '''creates the table org_structure'''
+        self.conn = None
+        try:
+            self.cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS org_structure(
+                id INTEGER,
+                department_name TEXT,
+                parent_department_id INTEGER
+                );
+                """
+            )
+            self.conn.commit()
+            print('table org_structure created successfully.')
+            self.cur.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            self.conn.close() if self.conn is not None else None
+
+    def insert_into_org_structure(self):
+        '''inserts data into org_structure'''
+        self.conn = None
+        try:
+            self.cur.execute(
+                """
+                insert into org_structure 
+                values
+                (1, 'CEO Office', null),
+                (2, 'VP Sales', 1),
+                (3, 'VP Operations', 1),
+                (4, 'Northeast Sales',2),
+                (5, 'Northwest Sales',2),
+                (6, 'Infrastructure Operations', 3),
+                (7, 'Management Operations', 3);
+                """
+            )
+            self.conn.commit()
+            print('data inserted successfully into org_structure.')
+            self.cur.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            self.conn.close() if self.conn is not None else None
+
+
 db = DataScience()
 db.connect()
 # db.create_tables()
@@ -1231,3 +1279,5 @@ db.connect()
 # db.insert_into_company_regions()
 # db.create_indexes()
 # db.insert_into_employees()
+# db.create_table_org_structure()
+# db.insert_into_org_structure()
